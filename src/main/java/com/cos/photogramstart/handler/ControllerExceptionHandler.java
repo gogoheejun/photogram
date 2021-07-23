@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cos.photogramstart.handler.ex.CustomApiException;
 import com.cos.photogramstart.handler.ex.CustomValidationApiException;
 import com.cos.photogramstart.handler.ex.CustomValidationException;
 import com.cos.photogramstart.util.Script;
@@ -29,5 +30,11 @@ public class ControllerExceptionHandler {
 	public ResponseEntity<?> validationException(CustomValidationApiException e) {
 		//e.getMessage()는 ajax가 error.responseJSON.message로 보내지고, e.getErrorMap()는 error.reponseJSON.data로 보내짐
 		return new ResponseEntity<>(new CMRespDto<>(-1,e.getMessage(),e.getErrorMap()),HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(CustomApiException.class)//CustomValidationException이 발동하는 모든 익셉션을 이 함수가 가로채
+	public ResponseEntity<?> apiException(CustomApiException e) {
+		//e.getMessage()는 ajax가 error.responseJSON.message로 보내지고, e.getErrorMap()는 error.reponseJSON.data로 보내짐
+		return new ResponseEntity<>(new CMRespDto<>(-1,e.getMessage(),null),HttpStatus.BAD_REQUEST);
 	}
 }
