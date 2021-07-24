@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cos.photogramstart.handler.ex.CustomApiException;
+import com.cos.photogramstart.handler.ex.CustomException;
 import com.cos.photogramstart.handler.ex.CustomValidationApiException;
 import com.cos.photogramstart.handler.ex.CustomValidationException;
 import com.cos.photogramstart.util.Script;
@@ -19,11 +20,20 @@ import com.cos.photogramstart.web.dto.CMRespDto;
 public class ControllerExceptionHandler {
 
 	@ExceptionHandler(CustomValidationException.class)//CustomValidationException이 발동하는 모든 익셉션을 이 함수가 가로채
-	//CMRespDto, Script 비교
-	//1.클라이언트에게 응답할 때는 Script가 좋지만
-	//2.Ajax통신, Android에는 CMRespDto를 씀
 	public String validationException(CustomValidationException e) {
-		return Script.back(e.getErrorMap().toString());
+		//CMRespDto, Script 비교
+		//1.클라이언트에게 응답할 때는 Script가 좋지만
+		//2.Ajax통신, Android에는 CMRespDto를 씀
+		if(e.getErrorMap()==null) {
+			return Script.back(e.getMessage());
+		}else {
+			return Script.back(e.getErrorMap().toString());
+		}
+	}
+	
+	@ExceptionHandler(CustomException.class)//CustomValidationException이 발동하는 모든 익셉션을 이 함수가 가로채
+	public String exception(CustomException e) {
+		return Script.back(e.getMessage());
 	}
 	
 	@ExceptionHandler(CustomValidationApiException.class)//CustomValidationException이 발동하는 모든 익셉션을 이 함수가 가로채
