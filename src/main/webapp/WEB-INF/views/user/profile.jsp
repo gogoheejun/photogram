@@ -33,10 +33,17 @@
 						<button class="cta" onclick="location.href='/image/upload'">사진등록</button>
 					</c:when>
 					<c:otherwise>
-						<button class="cta" onclick="toggleSubscribe(this)">구독하기</button>
+						<c:choose>
+							<c:when test="${dto.subscribeState}">
+								<button class="cta blue" onclick="toggleSubscribe(${dto.user.id},this)">구독취소</button>
+							</c:when>
+							<c:otherwise>
+								<button class="cta" onclick="toggleSubscribe(${dto.user.id},this)">구독하기</button>
+							</c:otherwise>
+						</c:choose>
 					</c:otherwise>
 				</c:choose>
-				
+
 				<button class="modi" onclick="popup('.modal-info')">
 					<i class="fas fa-cog"></i>
 				</button>
@@ -46,7 +53,7 @@
 				<ul>
 					<li><a href=""> 게시물<span>${dto.imageCount}</span>
 					</a></li>
-					<li><a href="javascript:subscribeInfoModalOpen();"> 구독정보<span>2</span>
+					<li><a href="javascript:subscribeInfoModalOpen();"> 구독정보<span>${dto.subscribeCount}</span>
 					</a></li>
 				</ul>
 			</div>
@@ -70,7 +77,8 @@
 			<div class="tab-1-content-inner">
 
 				<!--아이템들-->
-				 <c:forEach var="image" items="${dto.user.images}"> <!-- EL표현식에서 변수명을 적으면 get함수가 자동호출됨 -->
+				<c:forEach var="image" items="${dto.user.images}">
+					<!-- EL표현식에서 변수명을 적으면 get함수가 자동호출됨 -->
 					<div class="img-box">
 						<a href=""> <img src="/upload/${image.postImageUrl}" />
 						</a>
@@ -143,6 +151,7 @@
 					<button class="cta blue" onclick="toggleSubscribeModal(this)">구독취소</button>
 				</div>
 			</div>
+			
 		</div>
 	</div>
 
