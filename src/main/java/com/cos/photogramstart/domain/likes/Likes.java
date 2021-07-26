@@ -15,6 +15,7 @@ import javax.persistence.UniqueConstraint;
 import com.cos.photogramstart.domain.image.Image;
 import com.cos.photogramstart.domain.subscibe.Subscribe;
 import com.cos.photogramstart.domain.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,6 +43,7 @@ public class Likes {
 	@ManyToOne  //N(likes) : 1(image) 관계니까...이미지 하나에 여러개좋아요.
 	private Image image;
 	
+	@JsonIgnoreProperties({"images"})
 	@JoinColumn(name="userId")
 	@ManyToOne  //N(likes) : 1(user) 관계니까...한명의 유저가 좋아요 여러개
 	private User user;
