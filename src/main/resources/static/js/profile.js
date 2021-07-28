@@ -101,7 +101,7 @@ function profileImageUpload(pageUserId, principalId) {
 		let profileImageForm = $("#userProfileImageForm")[0];
 		console.log(profileImageForm);
 		
-		//FormData 객체를 이용하면 from태그의 필드와 그 값을 나타내는 일련의 key/value쌍을 담을 수 있다.
+		//FormData 객체를 이용하면 from태그의 필드와 그 값을 나타내는 일련의 key/value쌍을 담을 수 있다. 일반적으로 사진과 글을 섞어 쓸 때 사용함.
 		let formData = new FormData(profileImageForm)
 		//console.log(formData);
 		$.ajax({
@@ -113,6 +113,7 @@ function profileImageUpload(pageUserId, principalId) {
 			enctype:"multipart/form-data",
 			dataType:"json"
 		}).done(res=>{
+			console.log(res);
 			// 사진 전송 성공시 이미지 변경
 			let reader = new FileReader();
 			reader.onload = (e) => {

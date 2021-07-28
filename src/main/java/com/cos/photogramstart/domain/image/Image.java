@@ -10,9 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
 import javax.persistence.Transient;
 
+import com.cos.photogramstart.domain.comment.Comment;
 import com.cos.photogramstart.domain.likes.Likes;
 import com.cos.photogramstart.domain.subscibe.Subscribe;
 import com.cos.photogramstart.domain.user.User;
@@ -52,7 +54,12 @@ public class Image {
 	@Transient
 	private int likeCount;
 	
+	
 	//댓글
+	@OrderBy("id DESC")
+	@JsonIgnoreProperties({"image"})
+	@OneToMany(mappedBy="image")//연관관계 주인이 Comment의 image다. 즉 FK가 이 comments가 아니라 Comment의 image에 생긴다
+	private List<Comment> comments;
 	
 	private LocalDateTime createDate;
 	
