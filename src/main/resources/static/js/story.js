@@ -190,7 +190,8 @@ function addComment(imageId) {
 		commentList.prepend(content);
 		
 	}).fail(error=>{
-		console.log("오류",error);
+		console.log("오류",error.responseJSON.data.content);
+		alert(error.responseJSON.data.content);
 	});
 
 
